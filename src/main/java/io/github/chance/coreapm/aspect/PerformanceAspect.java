@@ -34,13 +34,14 @@ public class PerformanceAspect {
             throw e;
         } finally {
             long end = System.currentTimeMillis();
+            long duration = end - start;
             String signature = joinPoint.getSignature().toShortString();
             int depth = ctx.getDepth();
 
             String log = "  ".repeat(depth - 1)
                     + signature
-                    + " " + (end - start) + "ms";
-            if((end-start)>1000){
+                    + " " + duration + "ms";
+            if((duration)>1000){
                 log += " ⚠ SLOW";
             }
 

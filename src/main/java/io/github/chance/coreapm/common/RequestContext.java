@@ -16,6 +16,12 @@ public class RequestContext {
         this.depth = 0;
     }
 
+    public RequestContext(String traceId) {
+        this.traceId = traceId;
+        this.startTime = System.currentTimeMillis();
+        this.depth = 0;
+    }
+
     public void increaseDepth(){
         depth++;
     }
