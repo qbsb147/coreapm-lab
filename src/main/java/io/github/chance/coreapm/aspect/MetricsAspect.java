@@ -28,7 +28,6 @@ public class MetricsAspect {
             throw e;
         } finally {
             long duration = System.currentTimeMillis() - start;
-            System.out.println("duration = " + duration);
             metricsService.record(endpoint, duration, isError);
         }
     }

@@ -9,7 +9,10 @@ import java.util.List;
 public class TestRepository{
 
     public void find() {
-        List<Integer> list = new ArrayList<>();
-        System.out.println("result = " + list.get(0));
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
