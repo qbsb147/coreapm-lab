@@ -14,7 +14,7 @@ public class AsyncTestService {
     @Async
     public CompletableFuture<String> asyncTask(String endpoint){
         String traceId = ContextHolder.get().getTraceId();
-        log.info("Async task traceId: {}", traceId);
+        log.info("Async task endpoint: {} traceId: {}", endpoint, traceId);
         return CompletableFuture.completedFuture(traceId);
     }
 }
