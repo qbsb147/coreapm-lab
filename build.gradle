@@ -41,13 +41,6 @@ dependencies {
     // Prometheus 연동 시
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
-	// Spring Boot Actuator 필수
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	// Micrometer Core
-	implementation 'io.micrometer:micrometer-core'
-	// Prometheus 연동 시
-	implementation 'io.micrometer:micrometer-registry-prometheus'
-
 }
 
 tasks.named('test') {
