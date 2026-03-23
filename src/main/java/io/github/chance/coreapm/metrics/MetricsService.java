@@ -22,4 +22,12 @@ public class MetricsService {
     public Map<String,ApiMetrics> getMetrics(){
         return collector.getAllMetrics();
     }
+
+    public void incrementAndGet(){
+        collector.incrementAndGet();
+    }
+
+    public void decrementAndGet(){
+        collector.decrementAndGet();
+    }
 }

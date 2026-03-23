@@ -12,17 +12,25 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @RequiredArgsConstructor
 public class MetricsCollector {
     private final PrometheusMeterRegistry meterRegistry;
     private final Map<String, ApiMetrics> metricsMap = new ConcurrentHashMap<>();
-    @Getter
-    private int currentRequests = 0;
+    private final AtomicInteger currentRequests = new AtomicInteger();
+
+    public void incrementAndGet(){
+        currentRequests.incrementAndGet();
+    }
+
+    public void decrementAndGet(){
+        currentRequests.decrementAndGet();
+    }
 
     public void record(String endpoint, long duration, boolean isError) {
-        currentRequests++;
+        currentRequests.incrementAndGet();
         try {
             ApiMetrics apiMetrics = metricsMap.computeIfAbsent(endpoint, k -> new ApiMetrics());
             apiMetrics.record(duration, isError);
@@ -39,10 +47,12 @@ public class MetricsCollector {
                 errorCounter.increment();
             }
         } finally {
-            currentRequests--;
+            currentRequests.decrementAndGet();
         }
     }
-
+    public double getCurrentRequests() {
+        return currentRequests.get();
+    }
     @PostConstruct
     public void initGauge(){
         Gauge.builder("api.current.requests", this, MetricsCollector::getCurrentRequests)

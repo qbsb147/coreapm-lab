@@ -18,11 +18,14 @@ public class AsyncTestService {
 
     @Async
     public CompletableFuture<String> asyncTask(String endpoint){
+
+        metricsService.incrementAndGet();
+
         String traceId = ContextHolder.get().getTraceId();
         long start = System.nanoTime();
         boolean isError = false;
         try{
-            Thread.sleep(500);
+            Thread.sleep(5000);
             System.out.println("Async traceId = " + traceId);
             return CompletableFuture.completedFuture(traceId);
         }catch (Exception e){
@@ -31,6 +34,7 @@ public class AsyncTestService {
         }finally {
             long duration = (System.nanoTime() - start)/1_000_000;
             metricsService.record(endpoint, duration, isError);
+            metricsService.decrementAndGet();
         }
     }
 }
