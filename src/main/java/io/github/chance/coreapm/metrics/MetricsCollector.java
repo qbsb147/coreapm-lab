@@ -21,28 +21,25 @@ public class MetricsCollector {
     @Getter
     private int currentRequests = 0;
 
-    public void beforeRequest(){
-        currentRequests++;
-    }
-
-    public void afterRequest(){
-        currentRequests--;
-    }
-
     public void record(String endpoint, long duration, boolean isError) {
-        ApiMetrics apiMetrics = metricsMap.computeIfAbsent(endpoint, k -> new ApiMetrics());
-        apiMetrics.record(duration,isError);
-        Timer.builder("api.response.time")
-                .tag("endpoint", endpoint)
-                .register(meterRegistry)
-                .record(duration, TimeUnit.MILLISECONDS);
+        currentRequests++;
+        try {
+            ApiMetrics apiMetrics = metricsMap.computeIfAbsent(endpoint, k -> new ApiMetrics());
+            apiMetrics.record(duration, isError);
+            Timer.builder("api.response.time")
+                    .tag("endpoint", endpoint)
+                    .register(meterRegistry)
+                    .record(duration, TimeUnit.MILLISECONDS);
 
-        Counter callCounter = meterRegistry.counter("api.call.count", "endpoint", endpoint);
-        callCounter.increment();
+            Counter callCounter = meterRegistry.counter("api.call.count", "endpoint", endpoint);
+            callCounter.increment();
 
-        if(isError){
-            Counter errorCounter = meterRegistry.counter("api.error.count", "endpoint", endpoint);
-            errorCounter.increment();
+            if (isError) {
+                Counter errorCounter = meterRegistry.counter("api.error.count", "endpoint", endpoint);
+                errorCounter.increment();
+            }
+        } finally {
+            currentRequests--;
         }
     }
 
