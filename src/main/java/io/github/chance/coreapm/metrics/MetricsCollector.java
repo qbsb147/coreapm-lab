@@ -1,17 +1,56 @@
 package io.github.chance.coreapm.metrics;
 
+import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.Timer;
+import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
+import io.micrometer.core.instrument.Counter;
+import jakarta.annotation.PostConstruct;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 @Component
+@RequiredArgsConstructor
 public class MetricsCollector {
+    private final PrometheusMeterRegistry meterRegistry;
     private final Map<String, ApiMetrics> metricsMap = new ConcurrentHashMap<>();
+    @Getter
+    private int currentRequests = 0;
+
+    public void beforeRequest(){
+        currentRequests++;
+    }
+
+    public void afterRequest(){
+        currentRequests--;
+    }
 
     public void record(String endpoint, long duration, boolean isError) {
-        metricsMap.computeIfAbsent(endpoint, k -> new ApiMetrics())
-                .record(duration,isError);
+        ApiMetrics apiMetrics = metricsMap.computeIfAbsent(endpoint, k -> new ApiMetrics());
+        apiMetrics.record(duration,isError);
+        Timer.builder("api.response.time")
+                .tag("endpoint", endpoint)
+                .register(meterRegistry)
+                .record(duration, TimeUnit.MILLISECONDS);
+
+        Counter callCounter = meterRegistry.counter("api.call.count", "endpoint", endpoint);
+        callCounter.increment();
+
+        if(isError){
+            Counter errorCounter = meterRegistry.counter("api.error.count", "endpoint", endpoint);
+            errorCounter.increment();
+        }
+    }
+
+    @PostConstruct
+    public void initGauge(){
+        Gauge.builder("api.current.requests", this, MetricsCollector::getCurrentRequests)
+                .description("현재 처리 중인 API 요청 수")
+                .register(meterRegistry);
     }
 
     public Map<String, ApiMetrics> getAllMetrics(){

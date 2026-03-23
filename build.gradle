@@ -30,6 +30,14 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+	// Spring Boot Actuator 필수
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	// Micrometer Core
+	implementation 'io.micrometer:micrometer-core'
+	// Prometheus 연동 시
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
 }
 
 tasks.named('test') {
