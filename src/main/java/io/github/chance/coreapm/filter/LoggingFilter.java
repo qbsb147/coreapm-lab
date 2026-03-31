@@ -26,7 +26,10 @@ public class LoggingFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         if(request.getDispatcherType()==DispatcherType.REQUEST){
-            String traceId = UUID.randomUUID().toString();
+            String headerTraceId = request.getHeader("X-Trace-Id");
+            String traceId = (headerTraceId != null && !headerTraceId.isBlank())
+                    ? headerTraceId
+                    : UUID.randomUUID().toString();
             long startTime = System.currentTimeMillis();
 
             ContextHolder.set(new RequestContext(traceId, startTime));

@@ -29,7 +29,7 @@ class AsyncTestServiceTest {
 
         String result = null;
         try {
-            result = asyncTestService.asyncTask("task1").get();
+            result = asyncTestService.asyncTask(result).get();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (ExecutionException e) {
@@ -55,7 +55,7 @@ class AsyncTestServiceTest {
 
                 try {
                     // asyncTask 호출
-                    return asyncTestService.asyncTask("task-" + traceId).get();
+                    return asyncTestService.asyncTask(traceId).get();
                 } catch (InterruptedException | ExecutionException e) {
                     throw new RuntimeException(e);
                 } finally {

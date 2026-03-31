@@ -1,13 +1,21 @@
 package io.github.chance.coreapm.common;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class RequestContext {
+    @Getter
     private final String traceId;
+    @Getter
     private final long startTime;
+    @Getter
     private int depth;
     private List<String> logs = new ArrayList<>();
+    @Getter
+    @Setter
     private String error;
 
     public RequestContext(String traceId, long startTime) {
@@ -38,13 +46,4 @@ public class RequestContext {
         return logs.toArray(new String[0]);
     }
 
-    public void setError(String error) {
-        this.error = error;
-    }
-    public String getError(){
-        return error;
-    }
-    public int getDepth(){return depth;}
-    public String getTraceId() { return traceId; }
-    public long getStartTime() { return startTime; }
 }

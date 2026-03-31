@@ -16,12 +16,34 @@ public class ContextAwareTaskExecutor implements AsyncTaskExecutor {
 
     @Override
     public void execute(Runnable task) {
-        delegate.execute(taskDecorator.decorate(task));
+        final RequestContext ctx = ContextHolder.get();
+
+        Runnable decorated = () -> {
+            try {
+                if (ctx != null) ContextHolder.set(ctx);
+                task.run();
+            } finally {
+                ContextHolder.clear();
+            }
+        };
+
+        delegate.execute(decorated);
     }
 
     @Override
     public Future<?> submit(Runnable task) {
-        return delegate.submit(taskDecorator.decorate(task));
+        final RequestContext ctx = ContextHolder.get();
+
+        Runnable decorated = () -> {
+            try {
+                if (ctx != null) ContextHolder.set(ctx);
+                task.run();
+            } finally {
+                ContextHolder.clear();
+            }
+        };
+
+        return delegate.submit(decorated);
     }
 
     @Override

@@ -17,23 +17,22 @@ public class AsyncTestService {
     private final MetricsService metricsService;
 
     @Async
-    public CompletableFuture<String> asyncTask(String endpoint){
+    public CompletableFuture<String> asyncTask(String type){
 
         metricsService.incrementAndGet();
 
         String traceId = ContextHolder.get().getTraceId();
-        long start = System.nanoTime();
-        boolean isError = false;
         try{
-            Thread.sleep(5000);
             System.out.println("Async traceId = " + traceId);
+            if("fast".equals(type))
+                Thread.sleep(100);
+            else if("slow".equals(type))
+                Thread.sleep(500);
+            else throw new RuntimeException();
             return CompletableFuture.completedFuture(traceId);
         }catch (Exception e){
-            isError = true;
             throw new RuntimeException(e);
         }finally {
-            long duration = (System.nanoTime() - start)/1_000_000;
-            metricsService.record(endpoint, duration, isError);
             metricsService.decrementAndGet();
         }
     }
