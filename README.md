@@ -34,8 +34,8 @@ test/                        # 단위/통합 테스트, ThreadLocal/Async 검증
 ```
 
 ## 📝 프로젝트 관리
-- **Wiki**: 코드 설명, 설계 개념, ThreadLocal/TraceId 동작 원리 등을 정리
-- **GitHub Projects**: 진행 단계와 작업 상태를 시각화
+- **[Wiki](https://github.com/qbsb147/coreapm-lab/wiki)**: 코드 설명, 설계 개념, ThreadLocal/TraceId 동작 원리 등을 정리
+- **[GitHub Projects](https://github.com/users/qbsb147/projects/3)**: 진행 단계와 작업 상태를 시각화
   - 예: `Context`, `Filter`, `Metrics` 단계별 진행
   - Task 카드로 기능 구현, 테스트, 리팩토링 등 관리
 
