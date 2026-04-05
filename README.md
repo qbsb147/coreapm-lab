@@ -1,51 +1,70 @@
 # 🖥️ Personal APM Project
 
-> Spring Boot 기반의 개인 APM(Application Performance Monitoring) 프로젝트입니다.  
-> 프로젝트 목표는 Spring 애플리케이션에서 요청별 성능 모니터링과 로그, 메트릭 수집을 구현하고, ThreadLocal 기반 요청 추적을 실습하여 포트폴리오와 면접 준비에 활용하는 것입니다.
+> Spring Boot 기반 개인 APM(Application Performance Monitoring) 프로젝트입니다.
+> 목표는 Spring 애플리케이션에서 요청별 성능을 모니터링하고, ThreadLocal 기반 요청 추적을 학습하여 포트폴리오 및 면접 준비에 활용하는 것입니다.
 
-## 📌 프로젝트 개요
-- **목적**: Spring Boot 환경에서 요청별 실행 시간, 예외, 동시성 이슈를 추적하고 모니터링 기능 구현
-- **주요 기능**
-  1. ThreadLocal 기반 traceId 관리
-  2. AOP(@Around) 기반 메서드 실행 시간 추적
-  3. 비동기 환경에서 ThreadLocal 전파 및 검증
-  4. API Metrics 수집 및 slow API 탐지
-  5. 로그/메트릭 통합 관리
+## 📌 학습 목표
+
+1. **Spring Boot 기반 APM 구현**
+
+   * 요청별 실행 시간, 예외 처리, 동시성 이슈를 모니터링하는 방법 학습
+
+2. **ThreadLocal과 요청 추적**
+
+   * traceId 생성 및 관리
+   * 비동기 환경(@Async, CompletableFuture)에서 ThreadLocal 전파 학습
+
+3. **AOP 기반 성능 모니터링**
+
+   * `@Around`를 활용한 메서드 실행 시간 측정
+   * 예외 및 로그 기록과 통합
+
+4. **API Metrics 수집 및 시각화**
+
+   * Timer, Counter, Gauge 등 다양한 메트릭 수집
+   * Grafana/Prometheus를 통한 시각화 및 slow API 탐지
+
+5. **통합 로그 관리와 분석**
+
+   * SLF4J, Logback 기반 로그 설계
+   * traceId 기반 요청 단위 분석 학습
+
+6. **부하 테스트 및 성능 검증**
+
+   * k6, JMeter 등 도구를 활용한 부하 테스트
+   * API 성능 측정과 시뮬레이션 학습
+
+7. **Docker 기반 개발 환경 구성**
+
+   * Spring Boot, Prometheus, Grafana 컨테이너 구성
+   * Docker Compose를 활용한 로컬 환경 구축 및 테스트
 
 ## 🛠️ 기술 스택
-- **백엔드**: Spring Boot, Spring AOP, Spring TaskDecorator, CompletableFuture, @Async
-- **DB/저장**: MySQL (Metrics 저장, 추적 기록)
-- **로깅/모니터링**: SLF4J, Logback
-- **테스트**: JUnit 5
+
+* **백엔드**: Spring Boot, Spring AOP, Spring TaskDecorator, CompletableFuture, @Async
+* **DB/저장**: MySQL(옵션), Prometheus/Grafana 기반 메트릭 저장 및 시각화
+* **로깅/모니터링**: SLF4J, Logback, Micrometer
+* **부하 테스트**: k6, JMeter
+* **테스트**: JUnit 5
+* **환경/배포**: Docker, Docker Compose
 
 ## 📂 프로젝트 구조
+
 ```text
 main/
-├─ Application.java          # Spring Boot 메인 클래스, 애플리케이션 진입점
-├─ aspect/                   # AOP 관련 클래스 (예: PerformanceAspect, 로깅/트레이싱)
-├─ common/                   # 공용 유틸, DTO, ThreadLocal ContextHolder 등
-├─ config/                   # Spring 설정 관련 (AsyncConfig, TaskDecorator 등)
+├─ Application.java          # Spring Boot 진입점
+├─ aspect/                   # PerformanceAspect, 로깅/트레이싱
+├─ common/                   # DTO, ThreadLocal ContextHolder, 유틸
+├─ config/                   # AsyncConfig, TaskDecorator, MetricsConfig
 ├─ controller/               # REST API 컨트롤러
-├─ filter/                   # Servlet Filter 및 요청 전처리/후처리
-├─ metrics/                  # API Metrics 수집, slow API 탐지 관련
-├─ repository/               # DB 접근/저장소 계층 (JPA Repository 등)
+├─ filter/                   # Servlet Filter, 요청 전처리/후처리
+├─ metrics/                  # API Metrics 수집, slow API 탐지
+├─ repository/               # DB 접근/저장소 계층
 └─ service/                  # 비즈니스 로직, 서비스 계층
-test/                        # 단위/통합 테스트, ThreadLocal/Async 검증 등
+test/                        # 단위/통합 테스트
 ```
 
-## 📝 프로젝트 관리
-- **[Wiki](https://github.com/qbsb147/coreapm-lab/wiki)**: 코드 설명, 설계 개념, ThreadLocal/TraceId 동작 원리 등을 정리
-- **[GitHub Projects](https://github.com/users/qbsb147/projects/3)**: 진행 단계와 작업 상태를 시각화
-  - 예: `Context`, `Filter`, `Metrics` 단계별 진행
-  - Task 카드로 기능 구현, 테스트, 리팩토링 등 관리
+## 📌 프로젝트 관리
 
-## 🚀 진행 방식
-1. ThreadLocal 기반 요청 추적 및 ContextHolder 구현
-2. AOP로 메서드 실행 시간 측정
-3. MetricsCollector를 통한 API 호출 통계 수집
-4. 비동기 환경에서 ThreadLocal 전파 테스트
-5. Wiki와 Projects를 활용한 진행 상황 관리
-
-## 📌 참고 사항
-- ThreadLocal 전파는 기본적으로 비동기(@Async, CompletableFuture)에서 전달되지 않으므로 TaskDecorator로 처리
-- 모든 테스트 및 검증 결과는 로그로 확인 가능
+* **Wiki**: ThreadLocal/TraceId 동작 원리, 설계/구현 학습 내용 기록
+* **GitHub Projects**: Task 단위 진행 계획과 학습 목표 관리
