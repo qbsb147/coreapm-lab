@@ -41,7 +41,7 @@
 
 7. **Docker 기반 개발 환경 구성**
 
-   * Spring Boot, Prometheus, Grafana 컨테이너 구성
+   * Prometheus, Grafana 컨테이너 구성
    * Docker Compose를 활용한 로컬 환경 구축 및 테스트
 
 ## 🛠️ 기술 스택
