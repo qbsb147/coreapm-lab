@@ -3,6 +3,11 @@
 > Spring Boot 기반 개인 APM(Application Performance Monitoring) 프로젝트입니다.
 > 목표는 Spring 애플리케이션에서 요청별 성능을 모니터링하고, ThreadLocal 기반 요청 추적을 학습하여 포트폴리오 및 면접 준비에 활용하는 것입니다.
 
+## 🗂️ 프로젝트 관리
+
+- **[Wiki](https://github.com/qbsb147/coreapm-lab/wiki)**: 코드 설명, 설계 개념, ThreadLocal/TraceId 동작 원리 등을 정리
+- **[GitHub Projects](https://github.com/users/qbsb147/projects/3)**: 진행 단계와 작업 상태를 시각화
+
 ## 📌 학습 목표
 
 1. **Spring Boot 기반 APM 구현**
@@ -64,7 +69,3 @@ main/
 test/                        # 단위/통합 테스트
 ```
 
-## 📌 프로젝트 관리
-
-* **Wiki**: ThreadLocal/TraceId 동작 원리, 설계/구현 학습 내용 기록
-* **GitHub Projects**: Task 단위 진행 계획과 학습 목표 관리
