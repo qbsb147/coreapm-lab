@@ -46,8 +46,8 @@
 ## 🛠️ 기술 스택
 
 * **백엔드**: Spring Boot, Spring AOP, Spring TaskDecorator, CompletableFuture, @Async
-* **DB/저장**: MySQL(옵션), Prometheus/Grafana 기반 메트릭 저장 및 시각화
-* **로깅/모니터링**: SLF4J, Logback, Micrometer
+* **DB/저장**: MySQL(옵션), Prometheus/Grafana 기반 메트릭 저장 및 시각화, ElasticSearch
+* **로깅/모니터링**: SLF4J, Logback, Micrometer, Kibana
 * **부하 테스트**: k6, JMeter
 * **테스트**: JUnit 5
 * **환경/배포**: Docker, Docker Compose
