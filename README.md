@@ -4,8 +4,8 @@
 > 목표는 Spring 애플리케이션에서 요청별 성능을 모니터링하고, ThreadLocal 기반 요청 추적을 학습하는 것입니다.
 ## 🗂️ 프로젝트 관리
 
-- # **[🦜 Wiki](https://github.com/qbsb147/coreapm-lab/wiki)**: 코드 설명, 설계 개념, 동작 원리 등을 정리
-- # **[🐴 GitHub Projects](https://github.com/users/qbsb147/projects/3)**: 진행 단계와 작업 상태를 시각화
+# **[🦜 Wiki](https://github.com/qbsb147/coreapm-lab/wiki)**: 코드 설명, 설계 개념, 동작 원리 등을 정리
+# **[🐴 GitHub Projects](https://github.com/users/qbsb147/projects/3)**: 진행 단계와 작업 상태를 시각화
 
 ## 📌 학습 목표
 
